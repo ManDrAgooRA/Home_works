@@ -116,10 +116,25 @@ class Validator {
     }
 
     checkIsDate(str) {
+        let arrOfDate = [];
+
+        str.split('.').forEach(element => {
+            arrOfDate.push(+element)
+        });
+
+        let daysOfdate = arrOfDate[0] >= 1 && arrOfDate[0] <= 31;
+        let mounthsOfdate = arrOfDate[1] >= 1 && arrOfDate[1] <= 12;
+        let yearsOfdate = arrOfDate[2] >= 0 && arrOfDate[2] <= 9999;
+
+        if (daysOfdate && mounthsOfdate && yearsOfdate && arrOfDate.length <= 3) {
+            return true;
+        }
+        return false
     }
 
     checkIsPhone(str) {
-        let regExp = /^\+?38(\s|\S|\D\W)0\d{2}\)(\s|\S|\D\W)\d{3}\-\d{2}-\d{2}/;
+        let regExp = /^\+38(\s?|\S|\W|\D)(\()/;
+
         if (str.match(regExp)) {
             return true;
         } else {
@@ -131,5 +146,6 @@ class Validator {
 const validator = new Validator();
 
 // console.log(validator.checkIsEmail('vasya.pupkin@gmail.com'));
-// console.log(validator.checkIsEmail('xamomi2872@alltekia.ua'));
+// console.log(validator.checkIsDomain('google.com'))
+// console.log(validator.checkIsDate('30.11.2019'));
 // console.log(validator.checkIsPhone('+38 (066) 937-99-92'));
