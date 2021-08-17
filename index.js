@@ -46,21 +46,15 @@ function getTimeFunction() {
 
         let endTime = new Date().getTime();
         let result = Math.round((endTime - start) / 1000);
-        console.log(result);
+        start = endTime;
+        return result;
     }
-
 }
 
 let getTime = getTimeFunction();
 
-// console.log(getTime());
-// setTimeout(getTime, 1000);
-// setTimeout(getTime, 2000);
-// setTimeout(getTime, 5000);
-// setTimeout(getTime, 7000);
 
-
-const time = 10;
+const time = 70;
 const timer = (sec) => {
 
     let interval = setInterval(() => {
