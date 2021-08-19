@@ -206,14 +206,24 @@ const join = (arr, separator) => {
 
     let string = '';
 
-    if (!separator || separator === '') {
+    if (separator === undefined) {
         separator = ',';
+    } else if (separator === '') {
+        separator = '';
     }
+
 
     if (Array.isArray(arr)) {
         for (let i = 0; i < arr.length; i++) {
-            if (i + 1 !== arr.length) {
-                string += arr[i] + separator;
+            if (i + 1 <= arr.length) {
+                if (arr[i] != null || arr[i] != undefined) {
+                    string += arr[i] + separator;
+                } else if (i + 1 == arr.length) {
+                    string += '';
+                } else if (i + 1 < arr.length && separator != '') {
+                    string += '' + separator;
+                }
+
             } else {
                 string += arr[i];
             }
@@ -226,4 +236,4 @@ const join = (arr, separator) => {
     }
 }
 
-join(['s1', 's2', 's3', 's4', null], '');
+join(['s2', null, 's3', undefined], '-')
