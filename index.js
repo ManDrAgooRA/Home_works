@@ -16,30 +16,22 @@ const removeUser = (arr, index) => {
 // const obj = { name: 'Vasya', age: 1 }
 
 const getAllKeys = (obj) => {
-    const arrOfAllKeys = [];
-    for (let key in obj) {
-        arrOfAllKeys.push(key)
-    }
 
-    return arrOfAllKeys;
+    return Object.keys(obj);
 }
 
-// getAllKeys(obj);
+// console.log(getAllKeys(obj));
+
 
 
 //task 3
 
 
 const getAllValues = (obj) => {
-    const arrOfAllvalue = [];
-    for (let key in obj) {
-        arrOfAllvalue.push(obj[key]);
-    }
-
-    return arrOfAllvalue;
+    return Object.values(obj);
 }
 
-// getAllValues(obj)
+// console.log(getAllValues(obj))
 
 
 //task 4
@@ -95,27 +87,24 @@ class Condidate {
         return stateName[stateName.length - 2].trim();
     }
 }
+const condidate = condidateArr.map((item) => new Condidate(item))
 
-const condidate = new Condidate(condidateArr[0]);
-condidate.state();
+condidate[0].state();
 
 
 //task 6
 
 
 const getCompanyNames = () => {
-    const set = new Set();
-    const arrOfCompanyName = [];
 
-    for (let i = 0; i < condidateArr.length; i++) {
-        set.add(condidateArr[i].company)
-    }
+    return condidateArr
+        .map((item) => {
+            return item.company
+        })
+        .filter((item, index, arr) => {
+            return arr.indexOf(item) === index;
+        })
 
-    set.forEach((value) => {
-        arrOfCompanyName.push(value);
-    });
-
-    return arrOfCompanyName;
 }
 
 getCompanyNames();
@@ -125,20 +114,17 @@ getCompanyNames();
 
 
 const getUsersByYear = (year) => {
-    const arrOfDateRegister = [];
-    const arrOfId = [];
+    const arr = [];
 
     condidateArr.forEach((item) => {
-        arrOfDateRegister.push(item.registered.split('-')[0])
+
+        if (+item.registered.split('-')[0] === year) {
+            arr.push(item._id)
+        }
+
     })
 
-    for (let i = 0; i < condidateArr.length; i++) {
-        if (+arrOfDateRegister[i] === year) {
-            arrOfId.push(condidateArr[i]._id)
-        }
-    }
-
-    return arrOfId;
+    return arr;
 }
 
 getUsersByYear(2016);
@@ -146,16 +132,10 @@ getUsersByYear(2016);
 //task 8
 
 const getCondidatesByUnreadMsg = (message) => {
-    const arrayOfExamples = [];
 
-    for (let i = 0; i < condidateArr.length; i++) {
-        if (+condidateArr[i].greeting.split(' ')[5] === message) {
-            let condidate = new Condidate(condidateArr[i]);
-            arrayOfExamples.push(condidate);
-        }
-    }
-
-    return arrayOfExamples;
+    return condidate.filter((item) => {
+        return +item.greeting.split(' ')[5] === message
+    })
 
 }
 
@@ -165,16 +145,9 @@ getCondidatesByUnreadMsg(4);
 //task 9 
 
 const getCondidatesByGender = (gender) => {
-    const arrayOfExamples = [];
-
-    for (let i = 0; i < condidateArr.length; i++) {
-        if (condidateArr[i].gender === gender) {
-            let condidate = new Condidate(condidateArr[i]);
-            arrayOfExamples.push(condidate);
-        }
-    }
-
-    return arrayOfExamples;
+    return condidate.filter((item) => {
+        return item.gender === gender;
+    })
 }
 
 getCondidatesByGender();
@@ -184,13 +157,13 @@ getCondidatesByGender();
 const reduce = (arr, accumulator) => {
 
     if (!accumulator) {
-        accumulator = '0';
+        accumulator = 0;
     }
 
     if (Array.isArray(arr)) {
-        for (let i = 0; i < arr.length; i++) {
-            accumulator += arr[i];
-        }
+        arr.forEach((item) => {
+            accumulator += item
+        })
 
         return accumulator;
 
@@ -201,39 +174,33 @@ const reduce = (arr, accumulator) => {
 
 reduce([1, 2, 3, 4, 5, 6, 7], 2);
 
+// console.log(reduce([1, 2, 3, 4, 5, 6, 7]))
 
-const join = (arr, separator) => {
 
-    let string = '';
-
-    if (separator === undefined) {
-        separator = ',';
-    } else if (separator === '') {
-        separator = '';
-    }
-
+const join = (arr, separator = ',') => {
 
     if (Array.isArray(arr)) {
-        for (let i = 0; i < arr.length; i++) {
-            if (i + 1 <= arr.length) {
-                if (arr[i] != null || arr[i] != undefined) {
-                    string += arr[i] + separator;
-                } else if (i + 1 == arr.length) {
-                    string += '';
-                } else if (i + 1 < arr.length && separator != '') {
-                    string += '' + separator;
-                }
+        let str = '';
 
-            } else {
-                string += arr[i];
+        arr.forEach((item, index) => {
+            str += (
+                typeof arr[index] === 'string' ||
+                typeof arr[index] === 'number'
+            ) ? arr[index] : '';
+
+            if (index < arr.length - 2) {
+                str += separator
             }
-        }
 
-        return string;
+            str += ''
+
+        })
+
+        return str
 
     } else {
         return ('not Array')
     }
 }
 
-join(['s2', null, 's3', undefined], '-')
+join([8, 2], '-')
