@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="form">
+            <form action="#" id="form">
+                <label for="title">Enter Title :</label>
+                <input id="form-title" type="text" name='title' placeholder="Enter Title" required>
+
+                <label for="start">Enter start :</label>
+                <input id="form-start" type="time" name='start' placeholder="time start" min="8:00" max="17:00"
+                    required>
+
+                <label for="duration">Enter duration :</label>
+                <input id="form-duration" type="number" name='duration' placeholder="Enter duration" min="08:00"
+                    max="17:00" required>
+
+                <label for="color">Enter color :</label>
+                <input id="form-color" type="color" name='color' placeholder="Enter color" required>
+
+                <input type="submit" class="btn btn__submit">
+                <input type="submit" class="btn btn__edit-form" value='Изменить'>
+            </form>
+        </div>
+        <div class="container">
+            <div class="event__item">
+                <div class="event__time">
+                    <p>8:00</p>
+                </div>
+                <div class="event__wrap" data-time='8:00'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>8:30</p>
+                </div>
+                <div class="event__wrap" data-time='8:30'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time">
+                    <p>9:00</p>
+                </div>
+                <div class="event__wrap" data-time='9:00'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>9:30</p>
+                </div>
+                <div class="event__wrap" data-time='9:30'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time">
+                    <p>10:00</p>
+                </div>
+                <div class="event__wrap" data-time='10:00'>
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>10:30</p>
+                </div>
+                <div class="event__wrap" data-time='10:30'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time">
+                    <p>11:00</p>
+                </div>
+                <div class="event__wrap" data-time='11:00'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>11:30</p>
+                </div>
+                <div class="event__wrap" data-time='11:30'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time">
+                    <p>12:00</p>
+                </div>
+                <div class="event__wrap" data-time='12:00'>
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>12:30</p>
+                </div>
+                <div class="event__wrap" data-time='12:30'>
+
+                </div>
+            </div>
+
+            <div class="event__item">
+                <div class="event__time">
+                    <p>13:00</p>
+                </div>
+                <div class="event__wrap" data-time='13:00'>
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>13:30</p>
+                </div>
+                <div class="event__wrap" data-time='13:30'>
+
+                </div>
+            </div>
+
+            <div class="event__item">
+                <div class="event__time">
+                    <p>14:00</p>
+                </div>
+                <div class="event__wrap" data-time='14:00'>
+                    <!--<div class="event">
+                        <div class="event__content">
+                            <p>Exercise</p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>14:30</p>
+                </div>
+                <div class="event__wrap" data-time='14:30'>
+
+                </div>
+            </div>
+
+            <div class="event__item">
+                <div class="event__time">
+                    <p>15:00</p>
+                </div>
+                <div class="event__wrap" data-time='15:00'>
+                    <!--<div class="event">
+                        <div class="event__content">
+                            <p>Exercise</p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>15:30</p>
+                </div>
+                <div class="event__wrap" data-time='15:30'>
+
+                </div>
+            </div>
+
+            <div class="event__item">
+                <div class="event__time">
+                    <p>16:00</p>
+                </div>
+                <div class="event__wrap" data-time='16:00'>
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time event__time--small">
+                    <p>16:30</p>
+                </div>
+                <div class="event__wrap" data-time='16:30'>
+
+                </div>
+            </div>
+            <div class="event__item">
+                <div class="event__time">
+                    <p>17:00</p>
+                </div>
+                <div class="event__wrap" data-time='17:00'>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal__overlay">
+            <div class="modal__content">
+                <button class="modal__close">close</button>
+                <div class="modal__wrap">
+
+                    <div class="item-title">
+                        <p>title</p>
+                    </div>
+                    <div class="item-start">
+                        <p>start</p>
+                    </div>
+                    <!-- <button class="delete__property">dele333te</button> -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal__alert">
+        <!-- <p>some text</p> -->
+    </div>
+    <script src="eventLists.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
