@@ -234,6 +234,7 @@ const alertEvent = setInterval(() => {
 
 
 /////////////// edit
+
 const editEvent = (e) => {
     const form = document.querySelector('#form');
     const { title, start, duration, color } = form;
@@ -275,6 +276,10 @@ const editEvent = (e) => {
         btnEdit.classList.remove('active');
 
         renderEvents();
+        title.value = '';
+        start.value = '';
+        duration.value = '';
+        color.value = '';
     }
 
     btnEdit.addEventListener('click', changeEvent);
