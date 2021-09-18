@@ -23,7 +23,7 @@ const getHoursToMinutes = (time) => {
     return ((+time.split(':')[0] - 8) * 60) + +time.split(':')[1];
 }
 
-console.log(getMinutesToHours(120))
+// console.log(getMinutesToHours(120))
 
 /////////////// close
 
@@ -55,7 +55,6 @@ const addProperty = (e) => {
         duration.value = '';
         title.value = '';
         color.innerHTML = '';
-        console.log(eventLists)
     } else {
         console.log('Событие должно заканчиваться не позже 17:00 и начинаться не раньше 08:00')
     }
@@ -69,60 +68,55 @@ form.addEventListener('submit', addProperty)
 
 const renderEvents = () => {
     const timeHtml = document.querySelectorAll('.event__wrap');
-    timeHtml.innerTHML = '';
-    /////////////
+    ///////////
+    const removeEvents = () => {
+        const events = document.querySelectorAll('.event');
+        events.forEach((item) => {
+            item.remove();
+        })
+    }
+
+    removeEvents()
+
 
     for (let i = 0; i < eventLists.length; i++) {
         let a = +getMinutesToHours(eventLists[i].start).split(':').join('');
         for (let k = 0; k < timeHtml.length; k++) {
             let b = +timeHtml[k].getAttribute('data-time').split(':').join('');
-
             if (a >= b && a < b + 30) {
                 if ((a - b) < 17) {
                     const event = document.createElement('div');
+                    event.innerHTML = '';
                     event.classList.add('event');
                     event.innerHTML = `
                     <div class="event__content">
                             <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
+                            <button class="btn btn__event-edit" data-title="${eventLists[i].id}">edit</button>
                         </div>
                     `
-                    // const event = document.createElement('div');
-                    // event.classList.add('event__content');
                     event.style.background = `${eventLists[i].background}`;
                     event.style.top = `${a - b}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
-                    // const titleEvent = document.createElement('p');
-                    // titleEvent.innerText = eventLists[i].title;
-                    // event.append(titleEvent)
-                    // divEvent.append(event)
                     timeHtml[k].append(event);
-
                 } else {
                     const event = document.createElement('div');
                     event.classList.add('event');
+                    event.innerHTML = '';
+
                     event.innerHTML = `
                         <div class="event__content">
                             <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
+                            <button class="btn btn__event-edit" data-title="${eventLists[i].id}">edit</button>
                         </div>
                     `
-                    // const event = document.createElement('div');
-                    // event.classList.add('event__content');
                     event.style.background = eventLists[i].background;
                     event.style.top = `-${(eventLists[i].duration - eventLists[i].start) * 2}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
-                    // const titleEvent = document.createElement('p');
-                    // titleEvent.innerText = eventLists[i].title;
-                    // event.append(titleEvent)
-                    // divEvent.append(event)
                     timeHtml[k + 1].append(event);
                 }
             }
         }
     }
-
-    /////////////
 }
 
 renderEvents();
@@ -136,13 +130,14 @@ const showModal = (e) => {
     const modal = document.querySelector('.modal');
     const modalContent = document.querySelector('.modal__wrap');
     const modalClose = document.querySelector('.modal__close');
+
     if (e.target.localName === 'span') {
         let object = eventLists.filter((item) => {
             return item.title === e.target.innerText
         })
 
         modal.classList.toggle('active');
-        modalClose.addEventListener('click', closeModal)
+        modalClose.addEventListener('click', closeModal);
         modalContent.innerHTML = ''
 
         object.forEach((item) => {
@@ -159,7 +154,7 @@ const showModal = (e) => {
     }
 }
 
-events.addEventListener('click', showModal)
+events.addEventListener('click', showModal);
 
 /////////////// show modal
 
@@ -174,9 +169,9 @@ const deletProperty = (e) => {
                 return false;
             }
         })
-        eventLists.splice(obj, 1)
+        eventLists.splice(obj, 1);
         closeModal();
-        renderEvents()
+        renderEvents();
     }
 }
 
@@ -219,13 +214,13 @@ const alertEvent = setInterval(() => {
 
         let p = document.createElement('p');
         if ((new Date() - parseTime(`${getMinutesToHours(item.start)}:00`)) === 0) {
-            p.innerHTML = `${item.title} - начинается`
+            p.innerHTML = `${item.title} - начинается`;
 
-            alertBlock.append(p)
-            alertBlock.classList.add('active')
+            alertBlock.append(p);
+            alertBlock.classList.add('active');
 
             setTimeout(() => {
-                alertBlock.classList.remove('active')
+                alertBlock.classList.remove('active');
                 alertBlock.innerHTML = '';
             }, 4000);
 
@@ -239,20 +234,18 @@ const alertEvent = setInterval(() => {
 
 
 /////////////// edit
-
 const editEvent = (e) => {
-    console.log(eventLists)
     const form = document.querySelector('#form');
     const { title, start, duration, color } = form;
     const btnSubmit = document.querySelector('.btn__submit');
     const btnEdit = document.querySelector('.btn__edit-form');
 
     const obj = eventLists.filter((item) => {
-        return e.target.getAttribute('data-title') === item.title;
+        return +e.target.getAttribute('data-title') === item.id;
     })
 
     const findIndex = eventLists.findIndex((item) => {
-        return e.target.getAttribute('data-title') === item.title;
+        return +e.target.getAttribute('data-title') === item.id;
     })
 
     obj.forEach((item) => {
@@ -267,23 +260,21 @@ const editEvent = (e) => {
 
     const changeEvent = (e) => {
         e.preventDefault()
-        let obj = {
+        let obj1 = {
+            id: 0,
             start: getHoursToMinutes(start.value),
             duration: +duration.value,
             title: title.value,
             background: color.value,
         };
+        console.log(obj1)
 
-        console.log(obj);
-        console.log(findIndex);
-        eventLists.splice(findIndex, 1, obj);
+        eventLists.splice(findIndex, 1, obj1);
 
         btnSubmit.style.display = 'block';
         btnEdit.classList.remove('active');
-        start.value = '';
-        duration.value = '';
-        title.value = '';
-        color.innerHTML = '';
+
+        renderEvents();
     }
 
     btnEdit.addEventListener('click', changeEvent);
