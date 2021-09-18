@@ -1,17 +1,16 @@
 const eventLists = [
     {
-        id: 1,
         start: 0,
         duration: 15,
         title: 'Exercise',
         background: '#E2ECF5',
     },
-    // {
-    //     start: 30,
-    //     duration: 30,
-    //     title: 'Plan day',
-    //     background: '#E2ECF5',
-    // },
+    {
+        start: 30,
+        duration: 30,
+        title: 'Plan day',
+        background: '#E2ECF5',
+    },
     // {
     //     start: 25,
     //     duration: 30,

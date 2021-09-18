@@ -36,6 +36,7 @@ const closeModal = () => {
 
 /////////////// add property
 
+
 const addProperty = (e) => {
     e.preventDefault();
     const form = document.querySelector('#form');
@@ -91,7 +92,7 @@ const renderEvents = () => {
                     event.innerHTML = `
                     <div class="event__content">
                             <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].id}">edit</button>
+                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
                         </div>
                     `
                     event.style.background = `${eventLists[i].background}`;
@@ -106,7 +107,7 @@ const renderEvents = () => {
                     event.innerHTML = `
                         <div class="event__content">
                             <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].id}">edit</button>
+                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
                         </div>
                     `
                     event.style.background = eventLists[i].background;
@@ -241,13 +242,15 @@ const editEvent = (e) => {
     const btnSubmit = document.querySelector('.btn__submit');
     const btnEdit = document.querySelector('.btn__edit-form');
 
-    const obj = eventLists.filter((item) => {
-        return +e.target.getAttribute('data-title') === item.id;
+    const findIndex = eventLists.findIndex((item) => {
+        return e.target.getAttribute('data-title') === item.title;
     })
 
-    const findIndex = eventLists.findIndex((item) => {
-        return +e.target.getAttribute('data-title') === item.id;
+    const obj = eventLists.filter((item, index) => {
+        return e.target.getAttribute('data-title') === item.title;
     })
+
+    console.log(obj)
 
     obj.forEach((item) => {
         title.value = item.title;
@@ -262,7 +265,6 @@ const editEvent = (e) => {
     const changeEvent = (e) => {
         e.preventDefault()
         let obj1 = {
-            id: 0,
             start: getHoursToMinutes(start.value),
             duration: +duration.value,
             title: title.value,
@@ -276,10 +278,10 @@ const editEvent = (e) => {
         btnEdit.classList.remove('active');
 
         renderEvents();
-        title.value = '';
-        start.value = '';
-        duration.value = '';
-        color.value = '';
+        // title.value = '';
+        // start.value = '';
+        // duration.value = '';
+        // color.value = '';
     }
 
     btnEdit.addEventListener('click', changeEvent);
