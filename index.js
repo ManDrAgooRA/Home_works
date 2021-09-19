@@ -1,3 +1,13 @@
+function hexToRgb(hex) {
+    hex = hex.replace(/^#/mg, ' ')
+    let bigint = parseInt(hex, 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+
+    return r + ", " + g + ", " + b;
+}
+
 const getMinutesToHours = (time) => {
     // getMinutesToHours
     const parseTime = (time) => {
@@ -23,18 +33,16 @@ const getHoursToMinutes = (time) => {
     return ((+time.split(':')[0] - 8) * 60) + +time.split(':')[1];
 }
 
-// console.log(getMinutesToHours(120))
 
 /////////////// close
-
 const closeModal = () => {
     const modal = document.querySelector('.modal');
     modal.classList.remove('active')
 }
 /////////////// close
 
-/////////////// add property
 
+/////////////// add property
 const form = document.querySelector('#form__add');
 
 const addProperty = (e) => {
@@ -43,7 +51,6 @@ const addProperty = (e) => {
     const { title, start, duration, color } = form;
 
     if ((getHoursToMinutes(start.value) + +duration.value) < 540 && (getHoursToMinutes(start.value)) >= 0) {
-
         const event = {
             id: Event.id++,
             start: getHoursToMinutes(start.value),
@@ -65,11 +72,10 @@ const addProperty = (e) => {
 }
 
 form.addEventListener('submit', addProperty)
-
 /////////////// add property
 
-/////////////// render events
 
+/////////////// render events
 const renderEvents = () => {
     const timeHtml = document.querySelectorAll('.event__wrap');
     ///////////
@@ -96,8 +102,8 @@ const renderEvents = () => {
                             <button class="btn btn__event-edit" data-id="${eventLists[i].id}">edit</button>
                         </div>
                     `
-                    event.style.background = `${eventLists[i].background}`;
-                    // event.style.borderLeft = `4px solid ${eventLists[i].background}, 0.5`;
+                    event.style.background = `rgba(${hexToRgb(eventLists[i].background)}, 0.5)`;
+                    event.style.borderLeft = `4px solid rgba(${hexToRgb(eventLists[i].background)})`
                     event.style.top = `${a - b}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
                     timeHtml[k].append(event);
@@ -113,7 +119,8 @@ const renderEvents = () => {
                             <button class="btn btn__event-edit" data-id="${eventLists[i].id}">edit</button>
                         </div>
                     `
-                    event.style.background = eventLists[i].background;
+                    event.style.background = `rgba(${hexToRgb(eventLists[i].background)}, 0.5)`;
+                    event.style.borderLeft = `4px solid rgba(${hexToRgb(eventLists[i].background)})`
                     event.style.top = `-${(eventLists[i].duration - eventLists[i].start) * 2}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
                     timeHtml[k + 1].append(event);
@@ -124,8 +131,8 @@ const renderEvents = () => {
 }
 
 renderEvents();
-
 /////////////// render events
+
 
 /////////////// show modal
 const events = document.querySelector('.container');
@@ -159,11 +166,10 @@ const showModal = (e) => {
 }
 
 events.addEventListener('click', showModal);
-
 /////////////// show modal
 
-///////////// delete
 
+///////////// delete
 const deletProperty = (e) => {
 
     if (e.target.className === 'delete__property') {
@@ -183,8 +189,8 @@ const deletProperty = (e) => {
 }
 
 document.querySelector('.modal').addEventListener('click', deletProperty)
-
 ///////////// delete
+
 
 /////////////// alertEvent
 // const getMaxTime = () => {
@@ -260,7 +266,6 @@ const editEvent = (e) => {
             return +e.target.getAttribute('data-id') === item.id;
         })
     }
-    // console.log(eventLists)
     btnEditEvent.setAttribute('data-id', eventLists[findIndex(e)].id);
 
 
