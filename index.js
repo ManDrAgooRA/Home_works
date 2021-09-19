@@ -31,33 +31,36 @@ const closeModal = () => {
     const modal = document.querySelector('.modal');
     modal.classList.remove('active')
 }
-
 /////////////// close
 
 /////////////// add property
 
+const form = document.querySelector('#form__add');
 
 const addProperty = (e) => {
     e.preventDefault();
-    const form = document.querySelector('#form');
 
     const { title, start, duration, color } = form;
 
     if ((getHoursToMinutes(start.value) + +duration.value) < 540 && (getHoursToMinutes(start.value)) >= 0) {
+
         const event = {
+            id: Event.id++,
             start: getHoursToMinutes(start.value),
             duration: +duration.value,
             title: title.value,
             background: color.value,
         }
-        eventLists.push(event)
+        eventLists.push(new Event(event))
+
         renderEvents();
+
         start.value = '';
         duration.value = '';
         title.value = '';
         color.innerHTML = '';
     } else {
-        console.log('Событие должно заканчиваться не позже 17:00 и начинаться не раньше 08:00')
+        alert('Событие должно заканчиваться не позже 17:00 и начинаться не раньше 08:00')
     }
 }
 
@@ -78,8 +81,6 @@ const renderEvents = () => {
     }
 
     removeEvents()
-
-
     for (let i = 0; i < eventLists.length; i++) {
         let a = +getMinutesToHours(eventLists[i].start).split(':').join('');
         for (let k = 0; k < timeHtml.length; k++) {
@@ -91,14 +92,16 @@ const renderEvents = () => {
                     event.classList.add('event');
                     event.innerHTML = `
                     <div class="event__content">
-                            <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
+                            <span data-id="${eventLists[i].id}">${eventLists[i].title}</span>
+                            <button class="btn btn__event-edit" data-id="${eventLists[i].id}">edit</button>
                         </div>
                     `
                     event.style.background = `${eventLists[i].background}`;
+                    // event.style.borderLeft = `4px solid ${eventLists[i].background}, 0.5`;
                     event.style.top = `${a - b}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
                     timeHtml[k].append(event);
+
                 } else {
                     const event = document.createElement('div');
                     event.classList.add('event');
@@ -106,8 +109,8 @@ const renderEvents = () => {
 
                     event.innerHTML = `
                         <div class="event__content">
-                            <span>${eventLists[i].title}</span>
-                            <button class="btn btn__event-edit" data-title="${eventLists[i].title}">edit</button>
+                            <span data-id="${eventLists[i].id}">${eventLists[i].title}</span>
+                            <button class="btn btn__event-edit" data-id="${eventLists[i].id}">edit</button>
                         </div>
                     `
                     event.style.background = eventLists[i].background;
@@ -134,7 +137,7 @@ const showModal = (e) => {
 
     if (e.target.localName === 'span') {
         let object = eventLists.filter((item) => {
-            return item.title === e.target.innerText
+            return item.id === +e.target.getAttribute('data-id')
         })
 
         modal.classList.toggle('active');
@@ -162,6 +165,7 @@ events.addEventListener('click', showModal);
 ///////////// delete
 
 const deletProperty = (e) => {
+
     if (e.target.className === 'delete__property') {
         let obj = eventLists.findIndex((item) => {
             if (item.title === e.target.dataset.title) {
@@ -170,8 +174,10 @@ const deletProperty = (e) => {
                 return false;
             }
         })
+
         eventLists.splice(obj, 1);
         closeModal();
+        document.querySelector('.form__edit').classList.remove('active')
         renderEvents();
     }
 }
@@ -181,116 +187,114 @@ document.querySelector('.modal').addEventListener('click', deletProperty)
 ///////////// delete
 
 /////////////// alertEvent
-const getMaxTime = () => {
-    let max = eventLists[0].start;
-    eventLists.forEach((item) => {
-        if (item.start > max) {
-            max = item.start
-        }
-    })
+// const getMaxTime = () => {
+//     let max = eventLists[0].start;
+//     eventLists.forEach((item) => {
+//         if (item.start > max) {
+//             max = item.start
+//         }
+//     })
 
-    return max;
-}
+//     return max;
+// }
 
-getMaxTime()
+// getMaxTime()
 
 
-const alertEvent = setInterval(() => {
+// const alertEvent = setInterval(() => {
 
-    const parseTime = (string) => {
-        const date = new Date();
-        date.setHours(string.split(':')[0]);
-        date.setMinutes(string.split(':')[1]);
-        date.setSeconds(string.split(':')[2]);
+//     const parseTime = (string) => {
+//         const date = new Date();
+//         date.setHours(string.split(':')[0]);
+//         date.setMinutes(string.split(':')[1]);
+//         date.setSeconds(string.split(':')[2]);
 
-        return date;
-    }
+//         return date;
+//     }
 
-    eventLists.forEach((item) => {
-        let alertBlock = document.querySelector('.modal__alert');
+//     eventLists.forEach((item) => {
+//         let alertBlock = document.querySelector('.modal__alert');
 
-        if (new Date() >= parseTime(`${getMinutesToHours(getMaxTime())}:00`)) {
-            clearInterval(alertEvent);
-        }
+//         if (new Date() >= parseTime(`${getMinutesToHours(getMaxTime())}:00`)) {
+//             clearInterval(alertEvent);
+//         }
 
-        let p = document.createElement('p');
-        if ((new Date() - parseTime(`${getMinutesToHours(item.start)}:00`)) === 0) {
-            p.innerHTML = `${item.title} - начинается`;
+//         let p = document.createElement('p');
+//         if ((new Date() - parseTime(`${getMinutesToHours(item.start)}:00`)) === 0) {
+//             p.innerHTML = `${item.title} - начинается`;
 
-            alertBlock.append(p);
-            alertBlock.classList.add('active');
+//             alertBlock.append(p);
+//             alertBlock.classList.add('active');
 
-            setTimeout(() => {
-                alertBlock.classList.remove('active');
-                alertBlock.innerHTML = '';
-            }, 4000);
+//             setTimeout(() => {
+//                 alertBlock.classList.remove('active');
+//                 alertBlock.innerHTML = '';
+//             }, 4000);
 
-        } else {
-            console.log(false)
-        }
+//         } else {
+//             console.log(false)
+//         }
 
-    })
-}, 1000);
+//     })
+// }, 1000);
 /////////////// alertEvent
 
 
 /////////////// edit
+const btnEdit = document.querySelector('.btn__event-edit');
+const btnEditEvent = document.querySelector('.btn__edit-form');
 
 const editEvent = (e) => {
-    const form = document.querySelector('#form');
-    const { title, start, duration, color } = form;
-    const btnSubmit = document.querySelector('.btn__submit');
-    const btnEdit = document.querySelector('.btn__edit-form');
+    const form = document.querySelector('.form__edit');
+    const formValue = document.querySelector('#form__edit');
+    const { title, start } = formValue;
 
-    const findIndex = eventLists.findIndex((item) => {
-        return e.target.getAttribute('data-title') === item.title;
-    })
-
-    const obj = eventLists.filter((item, index) => {
-        return e.target.getAttribute('data-title') === item.title;
-    })
-
-    console.log(obj)
-
-    obj.forEach((item) => {
-        title.value = item.title;
-        start.value = getMinutesToHours(item.start);
-        duration.value = item.duration;
-        color.value = item.background;
-    })
-
-    btnSubmit.style.display = 'none'
-    btnEdit.classList.add('active')
-
-    const changeEvent = (e) => {
-        e.preventDefault()
-        let obj1 = {
-            start: getHoursToMinutes(start.value),
-            duration: +duration.value,
-            title: title.value,
-            background: color.value,
-        };
-        console.log(obj1)
-
-        eventLists.splice(findIndex, 1, obj1);
-
-        btnSubmit.style.display = 'block';
-        btnEdit.classList.remove('active');
-
-        renderEvents();
-        // title.value = '';
-        // start.value = '';
-        // duration.value = '';
-        // color.value = '';
+    const showForm = () => {
+        if (e.target.classList[1] === 'btn__event-edit') {
+            form.classList.add('active');
+        }
     }
 
-    btnEdit.addEventListener('click', changeEvent);
+    const findIndex = (e) => {
+        return eventLists.findIndex((item) => {
+            return +e.target.getAttribute('data-id') === item.id;
+        })
+    }
+    // console.log(eventLists)
+    btnEditEvent.setAttribute('data-id', eventLists[findIndex(e)].id);
+
+
+    const fillForm = (e) => {
+
+        title.value = eventLists[findIndex(e)].title;
+        start.value = getMinutesToHours(eventLists[findIndex(e)].start);
+    }
+
+
+
+    const hideForm = () => {
+        form.classList.remove('active');
+    }
+
+    const changeEvent = (e) => {
+        e.preventDefault();
+        eventLists.forEach((item) => {
+            if (item.id === +btnEditEvent.getAttribute('data-id')) {
+                item.title = title.value;
+                item.start = getHoursToMinutes(start.value);
+            }
+        })
+        renderEvents();
+        hideForm();
+    }
+
+    findIndex(e);
+    showForm();
+    formValue.addEventListener('submit', changeEvent);
+    fillForm(e);
 }
 
 events.addEventListener('click', editEvent)
 /////////////// edit
-
-
-
 
 

@@ -15,6 +15,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 body{
     position: relative;
@@ -78,6 +79,7 @@ body{
     overflow: hidden;
     height: 100%;
     width: 100%;
+    padding: 0px 5px;
 }
 
 .modal{
@@ -113,13 +115,23 @@ body{
     cursor: pointer;
 }
 
-form{
+.form form{
     position: fixed;
     display: flex;
     flex-direction: column;
     max-width: 400px;
-    left: 20px;
     top: 20px;
+}
+
+.form__add form{
+    left: 20px;
+}
+.form__edit{
+ display: none;
+}
+
+.form__edit form{
+    right: 20px;
 }
 
 .modal__alert{
@@ -134,11 +146,10 @@ form{
 
 .btn__event-edit{
     position: absolute;
-    right: 0;
-}
-
-.btn__edit-form{
-    display: none;
+    right: 5px;
+    top: 5px;
+    z-index: 99;
+    cursor: pointer;
 }
 
 .active{

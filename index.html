@@ -12,13 +12,14 @@
 <body>
     <div class="wrapper">
 
-        <div class="form">
-            <form action="#" id="form">
+        <div class="form form__add">
+            <form action="#" id="form__add">
+                <h2>Add event</h2>
                 <label for="title">Enter Title :</label>
                 <input id="form-title" type="text" name='title' placeholder="Enter Title" required>
 
                 <label for="start">Enter start :</label>
-                <input id="form-start" type="time" name='start' placeholder="time start" min="08:00" max="17:00"
+                <input id="form-start" type="time" name='start' placeholder="time start" min="08:00" max="16:55"
                     required>
 
                 <label for="duration">Enter duration :</label>
@@ -27,7 +28,19 @@
                 <label for="color">Enter color :</label>
                 <input id="form-color" type="color" name='color' placeholder="Enter color" required>
 
-                <input type="submit" class="btn btn__submit">
+                <input type="submit" class="btn btn__submit" value="Добавить">
+            </form>
+        </div>
+
+        <div class="form form__edit">
+            <form action="#" id="form__edit">
+                <h2>Edit event</h2>
+                <label for="title">Edit Title :</label>
+                <input id="form__edit-title" type="text" name='title' placeholder="Edit Title" required>
+
+                <label for="start">Edit start :</label>
+                <input id="form__edit-start" type="time" name='start' placeholder="Edit time start" min="08:00"
+                    max="16:55" required>
                 <input type="submit" class="btn btn__edit-form" value='Изменить'>
             </form>
         </div>
@@ -133,11 +146,6 @@
                     <p>14:00</p>
                 </div>
                 <div class="event__wrap" data-time='14:00'>
-                    <!--<div class="event">
-                        <div class="event__content">
-                            <p>Exercise</p>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="event__item">
@@ -154,11 +162,6 @@
                     <p>15:00</p>
                 </div>
                 <div class="event__wrap" data-time='15:00'>
-                    <!--<div class="event">
-                        <div class="event__content">
-                            <p>Exercise</p>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="event__item">
@@ -216,7 +219,6 @@
     </div>
 
     <div class="modal__alert">
-        <!-- <p>some text</p> -->
     </div>
     <script src="eventLists.js"></script>
     <script src="index.js"></script>
