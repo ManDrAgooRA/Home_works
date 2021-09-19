@@ -29,6 +29,10 @@ const getMinutesToHours = (time) => {
     }
 }
 
+console.log(getMinutesToHours(-313))
+console.log(getMinutesToHours(-312))
+console.log(getMinutesToHours(-311))
+
 const getHoursToMinutes = (time) => {
     return ((+time.split(':')[0] - 8) * 60) + +time.split(':')[1];
 }
@@ -86,13 +90,14 @@ const renderEvents = () => {
         })
     }
 
-    removeEvents()
+    removeEvents();
+
     for (let i = 0; i < eventLists.length; i++) {
-        let a = +getMinutesToHours(eventLists[i].start).split(':').join('');
+        let objectStart = +getMinutesToHours(eventLists[i].start).split(':').join('');
         for (let k = 0; k < timeHtml.length; k++) {
-            let b = +timeHtml[k].getAttribute('data-time').split(':').join('');
-            if (a >= b && a < b + 30) {
-                if ((a - b) < 17) {
+            let htmlStart = +timeHtml[k].getAttribute('data-time').split(':').join('');
+            if (objectStart >= htmlStart && objectStart < htmlStart + 30) {
+                if ((objectStart - htmlStart) < 17) {
                     const event = document.createElement('div');
                     event.innerHTML = '';
                     event.classList.add('event');
@@ -104,7 +109,7 @@ const renderEvents = () => {
                     `
                     event.style.background = `rgba(${hexToRgb(eventLists[i].background)}, 0.5)`;
                     event.style.borderLeft = `4px solid rgba(${hexToRgb(eventLists[i].background)})`
-                    event.style.top = `${a - b}px`;
+                    event.style.top = `${objectStart - htmlStart}px`;
                     event.style.height = `${eventLists[i].duration * 2}px`;
                     timeHtml[k].append(event);
 
