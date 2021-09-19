@@ -29,10 +29,6 @@ const getMinutesToHours = (time) => {
     }
 }
 
-console.log(getMinutesToHours(-313))
-console.log(getMinutesToHours(-312))
-console.log(getMinutesToHours(-311))
-
 const getHoursToMinutes = (time) => {
     return ((+time.split(':')[0] - 8) * 60) + +time.split(':')[1];
 }
@@ -62,6 +58,7 @@ const addProperty = (e) => {
             title: title.value,
             background: color.value,
         }
+
         eventLists.push(new Event(event))
 
         renderEvents();
@@ -70,6 +67,7 @@ const addProperty = (e) => {
         duration.value = '';
         title.value = '';
         color.innerHTML = '';
+
     } else {
         alert('Событие должно заканчиваться не позже 17:00 и начинаться не раньше 08:00')
     }
