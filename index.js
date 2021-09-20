@@ -66,7 +66,7 @@ const addProperty = (e) => {
         start.value = '';
         duration.value = '';
         title.value = '';
-        color.innerHTML = '';
+        color.value = '';
 
     } else {
         alert('Событие должно заканчиваться не позже 17:00 и начинаться не раньше 08:00')
@@ -161,7 +161,7 @@ const showModal = (e) => {
                     <p>Title: ${item.title}</p>
                     <p>Start: ${getMinutesToHours(item.start)}</p>
                     <p>Duration: ${item.duration} min</p>
-                    <button class="delete__property" data-title="${item.title}">delete</button>
+                    <button class="btn delete__property" data-title="${item.title}">delete</button>
             `;
             modalContent.append(divWrap);
         });
@@ -174,8 +174,7 @@ events.addEventListener('click', showModal);
 
 ///////////// delete
 const deletProperty = (e) => {
-
-    if (e.target.className === 'delete__property') {
+    if (e.target.className === 'btn delete__property' || e.target.id === 'modal') {
         let obj = eventLists.findIndex((item) => {
             if (item.title === e.target.dataset.title) {
                 return item;
@@ -264,42 +263,43 @@ const editEvent = (e) => {
         }
     }
 
-    const findIndex = (e) => {
-        return eventLists.findIndex((item) => {
-            return +e.target.getAttribute('data-id') === item.id;
-        })
+    if (e.target.className === 'btn btn__event-edit') {
+        const findIndex = (e) => {
+            return eventLists.findIndex((item) => {
+                return +e.target.getAttribute('data-id') === item.id;
+            })
+        }
+
+        btnEditEvent.setAttribute('data-id', eventLists[findIndex(e)].id);
+
+        const fillForm = (e) => {
+
+            title.value = eventLists[findIndex(e)].title;
+            start.value = getMinutesToHours(eventLists[findIndex(e)].start);
+        }
+
+        const hideForm = () => {
+            form.classList.remove('active');
+        }
+
+        const changeEvent = (e) => {
+            e.preventDefault();
+            eventLists.forEach((item) => {
+                if (item.id === +btnEditEvent.getAttribute('data-id')) {
+                    item.title = title.value;
+                    item.start = getHoursToMinutes(start.value);
+                }
+            })
+            renderEvents();
+            hideForm();
+        }
+
+        findIndex(e);
+        showForm();
+        formValue.addEventListener('submit', changeEvent);
+        fillForm(e);
     }
-    btnEditEvent.setAttribute('data-id', eventLists[findIndex(e)].id);
 
-
-    const fillForm = (e) => {
-
-        title.value = eventLists[findIndex(e)].title;
-        start.value = getMinutesToHours(eventLists[findIndex(e)].start);
-    }
-
-
-
-    const hideForm = () => {
-        form.classList.remove('active');
-    }
-
-    const changeEvent = (e) => {
-        e.preventDefault();
-        eventLists.forEach((item) => {
-            if (item.id === +btnEditEvent.getAttribute('data-id')) {
-                item.title = title.value;
-                item.start = getHoursToMinutes(start.value);
-            }
-        })
-        renderEvents();
-        hideForm();
-    }
-
-    findIndex(e);
-    showForm();
-    formValue.addEventListener('submit', changeEvent);
-    fillForm(e);
 }
 
 events.addEventListener('click', editEvent)

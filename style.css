@@ -58,6 +58,11 @@ body{
     position: relative;
     height: 15px;
     width: 100%;
+    transition: .4s;
+}
+
+.event:hover{
+    box-shadow: 4px 4px 30px 0px rgba(35, 58, 75, 0.4);
 }
 
 .event__content{
@@ -69,6 +74,10 @@ body{
     height: 100%;
     cursor: pointer;
     z-index: 2;
+}
+
+.event__content:hover{
+    z-index: 99;
 }
 
 .event__content span{
@@ -114,6 +123,17 @@ body{
     cursor: pointer;
 }
 
+form {
+    color: rgba(56, 64, 92, 0.933);
+    padding: 15px;
+    border: 4px;
+}
+
+form input{
+    color: rgba(56, 64, 92, 0.933);
+    margin: 5px 0px;
+}
+
 .form form{
     position: fixed;
     display: flex;
@@ -125,12 +145,28 @@ body{
 .form__add form{
     left: 20px;
 }
+
 .form__edit{
  display: none;
 }
 
 .form__edit form{
     right: 20px;
+}
+
+.btn{
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    background: #69bfbb94;
+    padding: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.btn:active{
+    transform: scale(0.8);
 }
 
 .modal__alert{
@@ -143,12 +179,23 @@ body{
     right: 20px;
 }
 
+.modal__wrap p {
+    padding: 10px 0px;
+}
+
+.modal__close{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
 .btn__event-edit{
     position: absolute;
     right: 5px;
     top: 5px;
-    z-index: 99;
+    background: #69bfbb2d;
     cursor: pointer;
+    z-index: 99;
 }
 
 .active{
